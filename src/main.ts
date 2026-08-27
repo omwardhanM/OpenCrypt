@@ -379,16 +379,20 @@ function toggleTheme(): void {
   Haptic.trigger('switch');
   document.body.classList.toggle('theme-dark');
   const isDark = document.body.classList.contains('theme-dark');
+  document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
   localStorage.setItem('opencrypt_theme', isDark ? 'dark' : 'light');
   updateThemeUI();
   updateTabIndicator();
 }
 
-// Initialize Theme
+// Initialize Theme (Default to Light Mode)
 const savedTheme = localStorage.getItem('opencrypt_theme');
-const systemPrefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-if (savedTheme === 'dark' || (!savedTheme && systemPrefersDark)) {
+if (savedTheme === 'dark') {
   document.body.classList.add('theme-dark');
+  document.documentElement.setAttribute('data-theme', 'dark');
+} else {
+  document.body.classList.remove('theme-dark');
+  document.documentElement.setAttribute('data-theme', 'light');
 }
 updateThemeUI();
 

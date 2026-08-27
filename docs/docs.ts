@@ -15,23 +15,23 @@ const themeText = document.getElementById('theme-text');
 
 function initTheme(): void {
   const savedTheme = localStorage.getItem('opencrypt_theme');
-  const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-  const activeTheme = savedTheme || (prefersDark ? 'dark' : 'light');
-
+  const activeTheme = savedTheme === 'dark' ? 'dark' : 'light';
   applyTheme(activeTheme);
 }
 
 function applyTheme(theme: string): void {
-  if (theme === 'light') {
-    document.documentElement.setAttribute('data-theme', 'light');
-    if (themeIconUse) themeIconUse.setAttribute('href', '#icon-moon');
-    if (themeText) themeText.textContent = 'Dark Mode';
-    if (themeToggleBtn) themeToggleBtn.setAttribute('aria-label', 'Switch to Dark Mode');
-  } else {
-    document.documentElement.removeAttribute('data-theme');
+  if (theme === 'dark') {
+    document.documentElement.setAttribute('data-theme', 'dark');
+    document.body.classList.add('theme-dark');
     if (themeIconUse) themeIconUse.setAttribute('href', '#icon-sun');
     if (themeText) themeText.textContent = 'Light Mode';
     if (themeToggleBtn) themeToggleBtn.setAttribute('aria-label', 'Switch to Light Mode');
+  } else {
+    document.documentElement.setAttribute('data-theme', 'light');
+    document.body.classList.remove('theme-dark');
+    if (themeIconUse) themeIconUse.setAttribute('href', '#icon-moon');
+    if (themeText) themeText.textContent = 'Dark Mode';
+    if (themeToggleBtn) themeToggleBtn.setAttribute('aria-label', 'Switch to Dark Mode');
   }
 }
 
