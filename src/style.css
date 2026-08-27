@@ -811,16 +811,20 @@ textarea::placeholder {
   gap: 2px;
 }
 
+.adv-short {
+  display: none;
+}
+
 .btn-generate-inline {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 6px;
-  height: 40px;
+  height: 38px;
   background: var(--bg-surface);
   border: 1px solid var(--border-default);
-  border-bottom: 2.5px solid var(--border-bottom-rim);
-  border-radius: var(--radius-md);
+  border-bottom: 2px solid var(--border-bottom-rim);
+  border-radius: var(--radius-sm);
   padding: 0 13px;
   font-family: var(--font-sans);
   font-size: 12px;
@@ -845,13 +849,13 @@ textarea::placeholder {
   background: var(--bg-surface-active);
 }
 
-/* Blend-in Advanced Options Toggle (No button borders) */
+/* Blend-in Advanced Options Toggle */
 .btn-options-toggle {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 5px;
-  height: 40px;
+  height: 38px;
   background: transparent;
   border: 1px solid transparent;
   border-radius: var(--radius-sm);
@@ -863,7 +867,7 @@ textarea::placeholder {
   cursor: pointer;
   white-space: nowrap;
   box-shadow: none;
-  transition: color 0.15s ease, background-color 0.15s ease;
+  transition: color 0.15s ease, background-color 0.15s ease, border-color 0.15s ease;
   flex-shrink: 0;
 }
 
@@ -1160,7 +1164,7 @@ textarea::placeholder {
   display: flex;
   align-items: center;
   gap: 10px;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
 }
 
 .btn {
@@ -1858,13 +1862,17 @@ body.theme-dark .btn-secondary:active:not(:disabled) {
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  word-break: break-all;
+  word-break: normal;
+  overflow-wrap: break-word;
 }
 
 .output-placeholder {
   font-family: var(--font-mono);
   font-size: 12px;
   color: var(--text-muted);
+  line-height: 1.5;
+  word-break: normal;
+  overflow-wrap: break-word;
 }
 
 /* Streaming Progress Bar & Real-time Telemetry Panel */
@@ -2784,23 +2792,41 @@ body.theme-dark .btn-secondary:active:not(:disabled) {
     width: 100%;
     display: flex;
     align-items: center;
+    justify-content: space-between;
     gap: 8px;
   }
 
   .btn-generate-inline {
     flex: 1;
-    height: 38px;
+    height: 36px;
     padding: 0 10px;
     font-size: 11.5px;
     justify-content: center;
+    border-radius: var(--radius-sm);
   }
 
   .btn-options-toggle {
     flex: 1;
-    height: 38px;
-    padding: 0 10px;
+    height: 36px;
+    padding: 0 8px;
     font-size: 11.5px;
     justify-content: center;
+    border-radius: var(--radius-sm);
+    background: var(--bg-subtle);
+    border: 1px solid var(--border-subtle);
+    color: var(--text-secondary);
+  }
+
+  .btn-options-toggle:hover {
+    background: var(--bg-surface-hover);
+    border-color: var(--border-default);
+    color: var(--accent-primary);
+  }
+
+  .btn-options-toggle.active {
+    background: var(--bg-subtle);
+    border-color: var(--border-focus);
+    color: var(--accent-primary);
   }
 
   /* Options & Tooltips */
@@ -3312,6 +3338,17 @@ body.theme-dark .btn-secondary:active:not(:disabled) {
   }
 }
 
+/* Responsive Text Abbreviation for very narrow viewports (max-width: 380px) */
+@media (max-width: 380px) {
+  .adv-full {
+    display: none;
+  }
+
+  .adv-short {
+    display: inline;
+  }
+}
+
 /* Extra small devices (max-width: 360px) */
 @media (max-width: 360px) {
   body {
@@ -3332,16 +3369,29 @@ body.theme-dark .btn-secondary:active:not(:disabled) {
   }
 
   .action-button-row {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+  }
+
+  .action-button-row .btn-primary,
+  .action-button-row .btn-secondary {
+    padding: 0 6px;
+    font-size: 12px;
+    white-space: nowrap;
   }
 
   .password-actions-col {
-    flex-direction: column;
+    flex-direction: row;
+    gap: 6px;
+    width: 100%;
   }
 
   .btn-generate-inline,
   .btn-options-toggle {
-    width: 100%;
+    height: 34px;
+    padding: 0 6px;
+    font-size: 11px;
+    flex: 1;
   }
 }
 
