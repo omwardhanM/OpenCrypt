@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OpenCrypt Documentation — In-Browser AES-256-GCM &amp; PBKDF2 Cryptography Reference</title>
+  
+  <!-- Primary Meta Tags for Developers & Search Engines -->
+  <meta name="title" content="OpenCrypt Documentation — In-Browser AES-256-GCM &amp; PBKDF2 Cryptography Reference" />
+  <meta name="description" content="Technical reference and developer documentation for OpenCrypt. In-depth architecture guide for in-browser AES-256-GCM encryption, PBKDF2-HMAC-SHA256 (600,000 rounds), multi-gigabyte streaming, container binary layout, and threat model." />
+  <meta name="keywords" content="encrypt files in browser, client-side encryption documentation, AES-256-GCM JavaScript, PBKDF2 Web Crypto API, stream large files encryption, browser cryptography, container binary format, open source file encryption AGPL, secure text encryption online" />
+  <meta name="author" content="Omwardhan Mishra" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://opencrypt.pages.dev/docs" />
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://opencrypt.pages.dev/docs" />
+  <meta property="og:site_name" content="OpenCrypt" />
+  <meta property="og:title" content="OpenCrypt Documentation — In-Browser AES-256-GCM &amp; PBKDF2 Cryptography Reference" />
+  <meta property="og:description" content="In-depth developer reference for OpenCrypt's client-side AES-256-GCM cipher, PBKDF2 key derivation, chunked streaming engine, and container specifications." />
+  <meta property="og:image" content="https://opencrypt.pages.dev/logo_OC.webp" />
+
+  <!-- Twitter Cards -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:url" content="https://opencrypt.pages.dev/docs" />
+  <meta name="twitter:title" content="OpenCrypt Documentation — In-Browser AES-256-GCM &amp; PBKDF2 Cryptography Reference" />
+  <meta name="twitter:description" content="In-depth developer reference for OpenCrypt's client-side AES-256-GCM cipher, PBKDF2 key derivation, chunked streaming engine, and container specifications." />
+  <meta name="twitter:image" content="https://opencrypt.pages.dev/logo_OC.webp" />
+
+  <!-- Production-Grade Multi-Platform Favicons -->
+  <link rel="icon" type="image/x-icon" href="../favicon/favicon.ico" />
+  <link rel="icon" type="image/png" sizes="16x16" href="../favicon/favicon-16x16.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="../favicon/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="48x48" href="../favicon/favicon-48x48.png" />
+  <link rel="icon" type="image/png" sizes="96x96" href="../favicon/favicon-96x96.png" />
+  <link rel="apple-touch-icon" sizes="120x120" href="../favicon/apple-touch-icon-120x120.png" />
+  <link rel="apple-touch-icon" sizes="152x152" href="../favicon/apple-touch-icon-152x152.png" />
+  <link rel="apple-touch-icon" sizes="167x167" href="../favicon/apple-touch-icon-167x167.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="../favicon/apple-touch-icon.png" />
+  <link rel="manifest" href="../favicon/site.webmanifest" />
+  <meta name="theme-color" content="#dbd2c3" />
+  <meta name="msapplication-TileColor" content="#dbd2c3" />
+  <meta name="msapplication-config" content="../favicon/browserconfig.xml" />
+
+  <!-- Google Fonts: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <!-- App Stylesheet -->
+
+  <!-- Structured Data JSON-LD (Technical Documentation Article Schema) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "OpenCrypt Cryptographic Architecture and Developer Documentation",
+    "description": "Technical specifications, algorithm implementations, and developer reference for OpenCrypt's in-browser AES-256-GCM client-side encryption engine.",
+    "author": {
+      "@type": "Person",
+      "name": "Omwardhan Mishra",
+      "url": "https://omwardhan.pages.dev"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "OpenCrypt",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://opencrypt.pages.dev/logo_OC.webp"
+      }
+    },
+    "license": "https://www.gnu.org/licenses/agpl-3.0.html",
+    "mainEntityOfPage": "https://opencrypt.pages.dev/docs"
+  }
+  </script>
+  <script type="module" crossorigin src="../assets/docs-IIzBzrMh.js"></script>
+  <link rel="modulepreload" crossorigin href="../assets/style-CiND01qb.js">
+  <link rel="stylesheet" crossorigin href="../assets/style-BBOFdsAS.css">
+</head>
+
+<body class="docs-page-body">
+  <!-- Inline SVG Sprite Definitions -->
+  <svg style="display: none;" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <!-- Sun / Light Mode Icon -->
+      <symbol id="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="5" />
+        <line x1="12" y1="1" x2="12" y2="3" />
+        <line x1="12" y1="21" x2="12" y2="23" />
+        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+        <line x1="1" y1="12" x2="3" y2="12" />
+        <line x1="21" y1="12" x2="23" y2="12" />
+        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+      </symbol>
+
+      <!-- Moon / Dark Mode Icon -->
+      <symbol id="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+      </symbol>
+
+      <!-- Arrow Left / Back -->
+      <symbol id="icon-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round">
+        <line x1="19" y1="12" x2="5" y2="12" />
+        <polyline points="12 19 5 12 12 5" />
+      </symbol>
+
+      <!-- Menu / Hamburger -->
+      <symbol id="icon-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round">
+        <line x1="3" y1="12" x2="21" y2="12" />
+        <line x1="3" y1="6" x2="21" y2="6" />
+        <line x1="3" y1="18" x2="21" y2="18" />
+      </symbol>
+
+      <!-- Close / X -->
+      <symbol id="icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18" />
+        <line x1="6" y1="6" x2="18" y2="18" />
+      </symbol>
+
+      <!-- Shield Check -->
+      <symbol id="icon-shield-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+        <polyline points="9 12 11 14 15 10" />
+      </symbol>
+
+      <!-- Lock -->
+      <symbol id="icon-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+        <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+      </symbol>
+
+      <!-- Speed / Gauge -->
+      <symbol id="icon-speed" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 14l4-4" />
+        <path d="M3.34 19a10 10 0 1 1 17.32 0" />
+      </symbol>
+
+      <!-- File Text -->
+      <symbol id="icon-file-text" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+        <polyline points="14 2 14 8 20 8" />
+        <line x1="16" y1="13" x2="8" y2="13" />
+        <line x1="16" y1="17" x2="8" y2="17" />
+        <polyline points="10 9 9 9 8 9" />
+      </symbol>
+
+      <!-- GitHub Logo -->
+      <symbol id="icon-github" viewBox="0 0 24 24" fill="currentColor">
+        <path fill-rule="evenodd" clip-rule="evenodd"
+          d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0 0 22 12.017C22 6.484 17.522 2 12 2z" />
+      </symbol>
+
+      <!-- External Arrow Diagonal -->
+      <symbol id="icon-arrow-up-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"
+        stroke-linecap="round" stroke-linejoin="round">
+        <line x1="7" y1="17" x2="17" y2="7" />
+        <polyline points="7 7 17 7 17 17" />
+      </symbol>
+    </defs>
+  </svg>
+
+  <!-- Full-Width Page Wrapper -->
+  <div class="docs-full-page">
+
+    <!-- ====================================================================
+         1. Full-Width Sticky Top Header
+         ==================================================================== -->
+    <header class="docs-top-header">
+      <div class="docs-header-inner">
+        <div class="docs-header-left">
+          <button id="btn-docs-menu" class="btn-docs-menu" type="button" aria-label="Toggle Documentation Sidebar">
+            <svg width="18" height="18" class="btn-icon">
+              <use href="#icon-menu"></use>
+            </svg>
+          </button>
+
+          <a href="/" class="docs-brand-link">
+            <div class="brand-logo footer-logo-badge">
+              <img src="../logo_OC.webp" alt="OpenCrypt Logo" class="brand-logo-img" width="20" height="20" />
+            </div>
+            <span class="docs-brand-name">OpenCrypt</span>
+            <span class="docs-badge">Docs</span>
+          </a>
+        </div>
+
+        <div class="docs-header-right">
+          <a href="/" class="docs-back-btn" title="Return to OpenCrypt App" aria-label="Return to OpenCrypt App">
+            <svg width="13" height="13" class="btn-icon">
+              <use href="#icon-arrow-left"></use>
+            </svg>
+            <span>Back to App</span>
+          </a>
+
+          <button id="btn-theme-toggle" class="btn-theme-toggle" type="button" aria-label="Toggle Color Theme">
+            <svg width="14" height="14" class="theme-icon" aria-hidden="true">
+              <use id="theme-icon-use" href="#icon-sun"></use>
+            </svg>
+            <span id="theme-text" class="theme-text">Light Mode</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Mobile Drawer Backdrop -->
+    <div id="docs-sidebar-backdrop" class="docs-sidebar-backdrop" aria-hidden="true"></div>
+
+    <!-- ====================================================================
+         2. Full-Width Layout: Left Sidebar + Main Content
+         ==================================================================== -->
+    <div class="docs-body-wrapper">
+
+      <!-- Left Navigation Sidebar -->
+      <aside id="docs-sidebar" class="docs-sidebar" aria-label="Documentation Navigation">
+        <div class="docs-sidebar-header-mobile">
+          <span>Documentation Topics</span>
+          <button id="btn-docs-sidebar-close" class="btn-sidebar-close" type="button" aria-label="Close Sidebar">
+            <svg width="16" height="16"><use href="#icon-close"></use></svg>
+          </button>
+        </div>
+
+        <nav class="docs-sidebar-nav">
+          <!-- 1. Overview -->
+          <div class="sidebar-topic-group">
+            <a href="#overview" class="sidebar-topic-link" data-section="overview">1. Overview</a>
+            <ul class="sidebar-subtopics">
+              <li><a href="#what-is-opencrypt" class="sidebar-subtopic-link" data-section="what-is-opencrypt">What is OpenCrypt</a></li>
+              <li><a href="#core-principles" class="sidebar-subtopic-link" data-section="core-principles">Core Principles</a></li>
+            </ul>
+          </div>
+
+          <!-- 2. Algorithms in Use -->
+          <div class="sidebar-topic-group">
+            <a href="#algorithms" class="sidebar-topic-link" data-section="algorithms">2. Algorithms in Use</a>
+            <ul class="sidebar-subtopics">
+              <li><a href="#algo-aes" class="sidebar-subtopic-link" data-section="algo-aes">AES-256-GCM</a></li>
+              <li><a href="#algo-pbkdf2" class="sidebar-subtopic-link" data-section="algo-pbkdf2">PBKDF2-HMAC-SHA256</a></li>
+              <li><a href="#algo-compression" class="sidebar-subtopic-link" data-section="algo-compression">Compression (Deflate)</a></li>
+            </ul>
+          </div>
+
+          <!-- 3. File Encryption -->
+          <div class="sidebar-topic-group">
+            <a href="#file-encryption" class="sidebar-topic-link" data-section="file-encryption">3. File Encryption</a>
+            <ul class="sidebar-subtopics">
+              <li><a href="#file-workflow" class="sidebar-subtopic-link" data-section="file-workflow">File & Folder Workflow</a></li>
+              <li><a href="#file-streaming" class="sidebar-subtopic-link" data-section="file-streaming">Large File Streaming</a></li>
+              <li><a href="#file-compression" class="sidebar-subtopic-link" data-section="file-compression">Pre-Encryption Compression</a></li>
+              <li><a href="#file-obfuscation" class="sidebar-subtopic-link" data-section="file-obfuscation">Signature Obfuscation</a></li>
+            </ul>
+          </div>
+
+          <!-- 4. Text Encryption -->
+          <div class="sidebar-topic-group">
+            <a href="#text-encryption" class="sidebar-topic-link" data-section="text-encryption">4. Text Encryption</a>
+            <ul class="sidebar-subtopics">
+              <li><a href="#text-workflow" class="sidebar-subtopic-link" data-section="text-workflow">Text Encryption Workflow</a></li>
+              <li><a href="#text-armored" class="sidebar-subtopic-link" data-section="text-armored">Armored Format (OCPT_...)</a></li>
+              <li><a href="#text-obfuscation" class="sidebar-subtopic-link" data-section="text-obfuscation">Text Signature Obfuscation</a></li>
+              <li><a href="#text-compression" class="sidebar-subtopic-link" data-section="text-compression">Text Compression</a></li>
+            </ul>
+          </div>
+
+          <!-- 5. Technical Notes -->
+          <div class="sidebar-topic-group">
+            <a href="#technical-notes" class="sidebar-topic-link" data-section="technical-notes">5. Technical Notes</a>
+            <ul class="sidebar-subtopics">
+              <li><a href="#tech-memory" class="sidebar-subtopic-link" data-section="tech-memory">Memory & Web Workers</a></li>
+              <li><a href="#tech-security" class="sidebar-subtopic-link" data-section="tech-security">Security & Threat Model</a></li>
+              <li><a href="#tech-container" class="sidebar-subtopic-link" data-section="tech-container">Container Binary Layout</a></li>
+              <li><a href="#tech-license" class="sidebar-subtopic-link" data-section="tech-license">Open Source & License</a></li>
+            </ul>
+          </div>
+        </nav>
+      </aside>
+
+      <!-- Main Scrollable Documentation Article -->
+      <main class="docs-content">
+        <article class="docs-article-body">
+
+          <!-- Header Hero Banner (Cleaned up, badge removed) -->
+          <div class="docs-hero-header">
+            <h1 class="docs-main-title">OpenCrypt Documentation</h1>
+            <p class="docs-main-lead">
+              A comprehensive technical reference for OpenCrypt's client-side cryptographic architecture, algorithm implementations, container formats, and operational workflows.
+            </p>
+          </div>
+
+          <!-- ==============================================================
+               1. OVERVIEW
+               ============================================================== -->
+          <section id="overview" class="docs-doc-section">
+            <div class="section-title-wrap">
+              <h2 class="section-heading">1. Overview</h2>
+            </div>
+            <p>
+              In contemporary internet software, data privacy is frequently compromised by centralized server architectures. Cloud encryption tools often require users to upload confidential files to third-party endpoints, introducing severe attack surfaces: interception during transit, remote database breaches, rogue internal operators, and server-side log retention.
+            </p>
+            <p>
+              OpenCrypt addresses this challenge by redefining encryption as an entirely localized, client-side browser capability. By implementing standardized cryptographic ciphers through native browser APIs, OpenCrypt ensures that raw files, confidential messages, and derived encryption keys never leave the boundaries of your local machine.
+            </p>
+
+            <!-- Subtopic: What is OpenCrypt -->
+            <div id="what-is-opencrypt" class="docs-subtopic-block">
+              <h3>What is OpenCrypt?</h3>
+              <p>
+                OpenCrypt is an in-browser, client-side cryptographic workstation designed for encrypting individual files, multi-gigabyte datasets, nested folder structures, and sensitive text payloads.
+              </p>
+              <p>
+                All cryptographic operations are performed directly in your local hardware memory using the W3C standard <code>Web Crypto API</code> (<code>window.crypto.subtle</code>). OpenCrypt requires <strong>no software installations</strong>, operates without browser plugins, contains <strong>zero third-party tracking scripts</strong>, and communicates with no external server endpoints during the encryption or decryption lifecycle.
+              </p>
+
+              <div class="docs-callout-box">
+                <h4>Client-Side vs. Cloud Encryption Architecture</h4>
+                <ul>
+                  <li><strong>Traditional Cloud Tools:</strong> User File → HTTPS Upload → Remote Server (Key Derived & Stored on Server) → Download Encrypted Output. High risk of interception, subpoenas, and data exfiltration.</li>
+                  <li><strong>OpenCrypt Architecture:</strong> User File → Local RAM / Web Worker → AES-256-GCM Hardware-Accelerated Local Cipher → Instant Local File Save. Zero byte transmission.</li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- Subtopic: Core Principles -->
+            <div id="core-principles" class="docs-subtopic-block">
+              <h3>Core Principles</h3>
+              <p>
+                OpenCrypt was engineered around four foundational principles of modern operational security:
+              </p>
+              <div class="docs-feature-grid">
+                <div class="docs-feature-box">
+                  <div class="docs-box-icon"><svg width="18" height="18"><use href="#icon-shield-check"></use></svg></div>
+                  <h4>100% Client-Side Privacy</h4>
+                  <p>Passphrases, raw plaintexts, and derived cryptographic keys reside strictly in transient memory. No metadata or telemetry is ever stored or transmitted.</p>
+                </div>
+                <div class="docs-feature-box">
+                  <div class="docs-box-icon"><svg width="18" height="18"><use href="#icon-lock"></use></svg></div>
+                  <h4>Authenticated AEAD</h4>
+                  <p>All ciphertexts are protected with 128-bit Galois authentication tags, mathematically preventing data corruption, truncation, and chosen-ciphertext tampering.</p>
+                </div>
+                <div class="docs-feature-box">
+                  <div class="docs-box-icon"><svg width="18" height="18"><use href="#icon-speed"></use></svg></div>
+                  <h4>Air-Gapped Operation</h4>
+                  <p>OpenCrypt operates completely offline. You can disconnect your network connection, turn on Airplane Mode, or run it on air-gapped workstations securely.</p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- ==============================================================
+               2. ALGORITHMS IN USE
+               ============================================================== -->
+          <section id="algorithms" class="docs-doc-section">
+            <div class="section-title-wrap">
+              <h2 class="section-heading">2. Algorithms in Use</h2>
+            </div>
+            <p>
+              Cryptographic systems must avoid custom, untested algorithms. OpenCrypt relies exclusively on NIST-standardized, mathematically proven primitives approved for defense-grade security.
+            </p>
+
+            <div class="table-container">
+              <table class="docs-data-table">
+                <thead>
+                  <tr>
+                    <th>Primitive Category</th>
+                    <th>Algorithm</th>
+                    <th>Cryptographic Parameters</th>
+                    <th>Security Guarantee</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>Symmetric Cipher</strong></td>
+                    <td><code>AES-256-GCM</code></td>
+                    <td>256-bit key length, 96-bit (12-byte) CSPRNG IV, 128-bit MAC tag</td>
+                    <td>Confidentiality and bit-level integrity verification (AEAD).</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Key Derivation Function</strong></td>
+                    <td><code>PBKDF2-HMAC-SHA256</code></td>
+                    <td>600,000 iterations (OWASP 2023+ recommended), 16-byte random salt</td>
+                    <td>Resistance against GPU/ASIC rainbow tables and brute-force cracking.</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Data Compression</strong></td>
+                    <td><code>Raw Deflate (RFC 1951)</code></td>
+                    <td>LZ77 + Huffman dynamic table encoding via <code>fflate</code> engine</td>
+                    <td>Reduces file size and eliminates statistical plaintext patterns.</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Entropy Generator</strong></td>
+                    <td><code>CSPRNG</code></td>
+                    <td><code>window.crypto.getRandomValues()</code></td>
+                    <td>Cryptographically secure pseudo-random number generation for salts and nonces.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Subtopic: AES-256-GCM -->
+            <div id="algo-aes" class="docs-subtopic-block">
+              <h3>AES-256-GCM (Authenticated Encryption)</h3>
+              <p>
+                Advanced Encryption Standard (AES) with a <strong>256-bit key</strong> provides 2<sup>256</sup> potential key combinations, rendering brute-force decryption physically impossible with existing and foreseeable supercomputers.
+              </p>
+              <p>
+                OpenCrypt deploys AES in <strong>Galois/Counter Mode (GCM)</strong>. GCM is an Authenticated Encryption with Associated Data (AEAD) mode that combines counter-mode encryption with Galois field multiplication (GF(2<sup>128</sup>)) to compute a 128-bit Message Authentication Code (MAC) tag over the ciphertext.
+              </p>
+              <p>
+                <strong>Security Impact:</strong> Unlike unauthenticated modes (such as AES-CBC or AES-CTR without HMAC), GCM prevents bit-flipping and padding oracle attacks. If an adversary modifies even a single bit in the encrypted container, decryption fails immediately and unconditionally, aborting before corrupted data can be executed.
+              </p>
+            </div>
+
+            <!-- Subtopic: PBKDF2 -->
+            <div id="algo-pbkdf2" class="docs-subtopic-block">
+              <h3>PBKDF2-HMAC-SHA256 (Key Derivation)</h3>
+              <p>
+                User passphrases vary widely in entropy and cannot be used directly as raw cryptographic keys. OpenCrypt utilizes <strong>PBKDF2</strong> (Password-Based Key Derivation Function 2) parameterized with <strong>HMAC-SHA-256</strong> to stretch the human-entered password into a 256-bit cryptographic key:
+              </p>
+              <div class="docs-code-container">
+                <div class="docs-code-header">
+                  <span>Mathematical Derivation Specification</span>
+                </div>
+                <pre class="docs-code-block"><code>Key = PBKDF2(PRF=HMAC-SHA-256, Password=P, Salt=S[16 bytes], Iterations=600,000, Length=256 bits)</code></pre>
+              </div>
+              <p>
+                <strong>The 600,000 Iteration Threshold:</strong> Deriving a single key requires calculating HMAC-SHA-256 600,000 times in a chained feedback loop. While this takes only a fraction of a second on a modern user CPU, it forces an attacker attempting to crack a stolen container to perform hundreds of thousands of hashing operations per guess, multiplying the financial and computational cost of brute-force attacks by several orders of magnitude.
+              </p>
+              <p>
+                <strong>16-Byte Cryptographic Salt:</strong> For each encryption operation, OpenCrypt generates a fresh 16-byte random salt via CSPRNG. This ensures that even if two users choose identical passphrases, their derived keys and resulting ciphertexts will be completely different, nullifying precomputed rainbow tables.
+              </p>
+            </div>
+
+            <!-- Subtopic: Compression -->
+            <div id="algo-compression" class="docs-subtopic-block">
+              <h3>Pre-Encryption Compression (Deflate)</h3>
+              <p>
+                Plaintext data (such as code, JSON, logs, spreadsheets, and documents) frequently exhibits high redundancy and predictable frequency distributions.
+              </p>
+              <p>
+                When compression is enabled, OpenCrypt compresses the plaintext using the <strong>Deflate</strong> algorithm (RFC 1951) <em>prior</em> to ciphering.
+              </p>
+              <div class="docs-callout-box">
+                <h4>Why Compress BEFORE Encryption?</h4>
+                <ul>
+                  <li><strong>Compression Principle:</strong> Robust encryption outputs high-entropy pseudo-random bytes indistinguishable from white noise. As a consequence, encrypted data cannot be compressed.</li>
+                  <li><strong>Security Advantage:</strong> Compressing data before encryption flattens repeating byte sequences, removing structural patterns that side-channel cryptanalysts might exploit.</li>
+                  <li><strong>Bandwidth & Storage:</strong> Reduces payload size by up to 70–90% for text and JSON, enabling faster transmission over email, messaging apps, or cloud drives.</li>
+                </ul>
+              </div>
+            </div>
+          </section>
+
+          <!-- ==============================================================
+               3. FILE ENCRYPTION
+               ============================================================== -->
+          <section id="file-encryption" class="docs-doc-section">
+            <div class="section-title-wrap">
+              <h2 class="section-heading">3. File Encryption</h2>
+            </div>
+            <p>
+              The <strong>Files</strong> module provides high-throughput client-side encryption for files of any size, from small office documents to multi-gigabyte database dumps, disk images, and multimedia archives.
+            </p>
+
+            <!-- Subtopic: File Workflow -->
+            <div id="file-workflow" class="docs-subtopic-block">
+              <h3>File & Folder Workflow</h3>
+              <div class="docs-steps-grid">
+                <div class="docs-step-card">
+                  <div class="step-badge">01</div>
+                  <h4>Intake & Manifest Creation</h4>
+                  <p>Drag and drop files or entire folders into the vault dropzone. OpenCrypt parses the directory hierarchy, builds a binary manifest, and bundles the files into a single streaming container.</p>
+                </div>
+                <div class="docs-step-card">
+                  <div class="step-badge">02</div>
+                  <h4>Passphrase & Settings Configuration</h4>
+                  <p>Input a master passphrase or generate a high-entropy 24-character random passphrase. Optionally toggle streaming, pre-compression, or obfuscation in Advanced Settings.</p>
+                </div>
+                <div class="docs-step-card">
+                  <div class="step-badge">03</div>
+                  <h4>Encryption & Restoration</h4>
+                  <p>Click <strong>Encrypt File</strong>. OpenCrypt processes the data locally with live MB/s throughput stats. Decrypting restores the exact original file names and folder structures.</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Subtopic: Large File Streaming -->
+            <div id="file-streaming" class="docs-subtopic-block">
+              <h3>Advanced Option: Large File Streaming Architecture</h3>
+              <p>
+                Standard in-memory web encryption loads the entire file into a single contiguous JavaScript <code>ArrayBuffer</code>. When processing multi-gigabyte files, this causes catastrophic browser memory spikes and crashes the tab due to heap limits.
+              </p>
+              <p>
+                OpenCrypt solves this with a <strong>Streaming Pipeline</strong> (1 MiB default, up to 64 MiB maximum chunk size) using deterministic counter nonce derivation and cryptographic Associated Authenticated Data (AAD) binding:
+              </p>
+              <div class="docs-feature-grid">
+                <div class="docs-feature-box">
+                  <div class="docs-box-icon"><svg width="18" height="18"><use href="#icon-speed"></use></svg></div>
+                  <h4>Progressive Slice Pipeline</h4>
+                  <p>Source files are read in discrete slices via <code>File.slice()</code> and transferred to a background Web Worker via zero-copy <code>ArrayBuffer</code> transfers.</p>
+                </div>
+                <div class="docs-feature-box">
+                  <div class="docs-box-icon"><svg width="18" height="18"><use href="#icon-lock"></use></svg></div>
+                  <h4>Deterministic Counter Nonce</h4>
+                  <p>Every chunk <em>i</em> derives an isolated 12-byte IV: <code>Nonce[0..3] = BaseIV[0..3]</code> and <code>Nonce[4..11] = BaseIV[4..11] ⊕ Uint64BE(i)</code>.</p>
+                </div>
+                <div class="docs-feature-box">
+                  <div class="docs-box-icon"><svg width="18" height="18"><use href="#icon-shield-check"></use></svg></div>
+                  <h4>Direct AAD Binding</h4>
+                  <p>Each chunk is cryptographically bound to the header and sequence index: <code>AAD = CanonicalHeader || Uint64BE(i) || FinalFlag(1B)</code>, preventing reordering or truncated frames.</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Subtopic: Pre-Encryption Compression in Files -->
+            <div id="file-compression" class="docs-subtopic-block">
+              <h3>Advanced Option: Pre-Encryption Compression</h3>
+              <p>
+                When encrypting uncompressed formats (e.g., CSV databases, log files, text archives, SQL dumps, or software source trees), enabling Pre-Encryption Compression invokes raw Deflate compression on the payload stream before ciphering.
+              </p>
+              <p>
+                This delivers substantial container size reductions without sacrificing encryption throughput, while automatically bypassing pre-compressed files (like JPEG or MP4) where compression yields no benefit.
+              </p>
+            </div>
+
+            <!-- Subtopic: Signature Obfuscation in Files -->
+            <div id="file-obfuscation" class="docs-subtopic-block">
+              <h3>Advanced Option: Signature Obfuscation (Stealth Containers)</h3>
+              <p>
+                Standard encrypted archives carry fixed, recognizable magic byte signatures (for example, the ASCII sequence <code>OCPT</code> at offset 0). Firewalls, network monitors, and Deep Packet Inspection (DPI) scanners search for these magic bytes to identify, flag, or quarantine encrypted containers.
+              </p>
+              <p>
+                When <strong>Signature Obfuscation</strong> is enabled:
+              </p>
+              <ul>
+                <li>The static <code>OCPT</code> magic header is stripped and replaced with pseudo-random high-entropy bytes.</li>
+                <li>Container format markers are randomized and structurally blended across the cryptographic salt and IV.</li>
+                <li>The resulting output file resembles a completely random stream of uniform binary entropy, indistinguishable from white noise or hardware random numbers.</li>
+              </ul>
+            </div>
+          </section>
+
+          <!-- ==============================================================
+               4. TEXT ENCRYPTION
+               ============================================================== -->
+          <section id="text-encryption" class="docs-doc-section">
+            <div class="section-title-wrap">
+              <h2 class="section-heading">4. Text Encryption</h2>
+            </div>
+            <p>
+              The <strong>Text</strong> module is designed for securing secret messages, sensitive notes, recovery phrases, API secrets, and server configuration files into compact, portable strings that can be copied into chat apps or emails.
+            </p>
+
+            <!-- Subtopic: Text Workflow -->
+            <div id="text-workflow" class="docs-subtopic-block">
+              <h3>Text Encryption Workflow</h3>
+              <p>
+                Simply paste or type your sensitive note into the input textarea, enter your chosen passphrase, and click <strong>Encrypt Text</strong>. OpenCrypt derives a 256-bit AES key via PBKDF2, seals the text with AES-256-GCM, and produces an armored string with one-click copy and download options.
+              </p>
+              <p>
+                To decrypt, paste the armored string into the input box, supply the original passphrase, and click <strong>Decrypt Text</strong> to recover the exact original plaintext.
+              </p>
+            </div>
+
+            <!-- Subtopic: Armored Format -->
+            <div id="text-armored" class="docs-subtopic-block">
+              <h3>Armored Format (<code>OCPT_...</code>)</h3>
+              <p>
+                Binary ciphertexts cannot be safely transmitted through messaging apps (e.g., WhatsApp, Signal, Telegram, Discord), web forums, or email without risking character corruption caused by Unicode encoding, line breaks, or whitespace normalization.
+              </p>
+              <p>
+                OpenCrypt encodes ciphertexts into a robust <strong>Base64URL</strong> armored envelope prefixed with <code>OCPT_</code>:
+              </p>
+              <div class="docs-code-container">
+                <div class="docs-code-header">
+                  <span>Standard Armored Ciphertext Sample</span>
+                  <button type="button" class="docs-copy-btn" data-target="code-armor-sample">Copy</button>
+                </div>
+                <pre class="docs-code-block" id="code-armor-sample"><code>OCPT_AQAAk1oW1r4_kL90Q0b3x8xM8hQ4wN7vC9p_3K2yL6jR5mT1xYz8vB4wQ...</code></pre>
+              </div>
+              <p>
+                <strong>Binary Armoring Layout:</strong> The base64url payload packs the container flags, 16-byte PBKDF2 salt, 12-byte GCM nonce, 128-bit authentication tag, and the encrypted ciphertext into a single URL-safe string using only <code>[A-Za-z0-9-_=]</code>.
+              </p>
+            </div>
+
+            <!-- Subtopic: Text Signature Obfuscation -->
+            <div id="text-obfuscation" class="docs-subtopic-block">
+              <h3>Text Signature Obfuscation</h3>
+              <p>
+                When <em>Signature Obfuscation</em> is enabled in the Text module, the explicit <code>OCPT_</code> prefix and version markers are removed. The output becomes a pure, non-prefixed high-entropy base64 string, preventing signature-matching chat filters and automated text scrapers from identifying the message as an OpenCrypt payload.
+              </p>
+            </div>
+
+            <!-- Subtopic: Text Compression -->
+            <div id="text-compression" class="docs-subtopic-block">
+              <h3>Text Pre-Encryption Compression</h3>
+              <p>
+                Enabling compression in the Text module compresses extensive text documents (such as JSON config trees, database exports, private keys, or lengthy markdown documentation) using Deflate prior to encryption. This can reduce the resulting armored string length by 50% to 80%, making it far easier to share across platforms with strict message length limits.
+              </p>
+            </div>
+          </section>
+
+          <!-- ==============================================================
+               5. TECHNICAL NOTES
+               ============================================================== -->
+          <section id="technical-notes" class="docs-doc-section">
+            <div class="section-title-wrap">
+              <h2 class="section-heading">5. Technical Notes</h2>
+            </div>
+            <p>
+              In-depth technical specifications covering OpenCrypt's threading model, threat boundaries, container binary layouts, and open-source licensing.
+            </p>
+
+            <!-- Subtopic: Memory & Workers -->
+            <div id="tech-memory" class="docs-subtopic-block">
+              <h3>Memory Management & Web Workers</h3>
+              <p>
+                Browser main threads are shared with UI rendering and user interactions. Executing PBKDF2 with 600,000 iterations or streaming gigabytes of data on the main thread would cause catastrophic UI freezing and trigger browser "Page Unresponsive" warnings.
+              </p>
+              <p>
+                OpenCrypt offloads all computationally intensive tasks to a dedicated background <strong>Web Worker</strong>:
+              </p>
+              <ul>
+                <li><strong>Thread Isolation:</strong> Hashing, compression, and AES encryption execute on separate OS threads without blocking UI animations or button states.</li>
+                <li><strong>Transferable ArrayBuffers:</strong> Data buffers are transferred between the main thread and the worker using zero-copy <code>postMessage(buffer, [buffer])</code> semantics, avoiding redundant memory cloning.</li>
+                <li><strong>Zero Disk Caching:</strong> All intermediate data chunks are discarded from RAM as soon as they are processed, ensuring no residual plaintext lingers in persistent browser storage.</li>
+              </ul>
+            </div>
+
+            <!-- Subtopic: Security Model -->
+            <div id="tech-security" class="docs-subtopic-block">
+              <h3>Security & Threat Model</h3>
+              <div class="docs-callout-box">
+                <h4>Security Assurances & Threat Boundaries</h4>
+                <ul>
+                  <li><strong>Network Adversaries:</strong> Because all crypto is executed 100% client-side, adversaries monitoring network traffic, Wi-Fi networks, or ISP routers see zero plaintext or encryption keys.</li>
+                  <li><strong>Server Compromise:</strong> Even if the hosting server were completely compromised, attackers cannot decrypt user containers because keys and plaintexts never touch the server.</li>
+                  <li><strong>Passphrase Entropy Requirement:</strong> OpenCrypt's cryptographic strength is directly linked to passphrase quality. A weak or short password (e.g. <code>password123</code>) can still be vulnerable to dictionary attacks despite the 600,000 PBKDF2 rounds. Users are strongly urged to use passphrases with ≥ 80 bits of entropy.</li>
+                  <li><strong>Zero Backdoors:</strong> OpenCrypt contains no recovery keys, escrow systems, or backdoors. If a passphrase is lost, the data is mathematically unrecoverable.</li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- Subtopic: Container Layout -->
+            <div id="tech-container" class="docs-subtopic-block">
+              <h3>Container Binary Layout</h3>
+              <p>
+                OpenCrypt employs deterministic binary container layouts for both standard and stealth operational modes, validated with Authenticated Associated Data (AAD) binding:
+              </p>
+
+              <h4>1. Standard File Container (<code>.opencrypt</code> &mdash; 44 + M Bytes Header)</h4>
+              <div class="table-container">
+                <table class="docs-data-table">
+                  <thead>
+                    <tr>
+                      <th>Byte Offset</th>
+                      <th>Field Name</th>
+                      <th>Length</th>
+                      <th>Data Type & Representation</th>
+                      <th>Description</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><code>0x00 - 0x03</code></td>
+                      <td><code>Magic Signature</code></td>
+                      <td>4 Bytes</td>
+                      <td>ASCII string <code>OCPT</code></td>
+                      <td>Binary container identification signature.</td>
+                    </tr>
+                    <tr>
+                      <td><code>0x04</code></td>
+                      <td><code>Format Version</code></td>
+                      <td>1 Byte</td>
+                      <td>Uint8 (<code>0x01</code>)</td>
+                      <td>Current OpenCrypt container schema version.</td>
+                    </tr>
+                    <tr>
+                      <td><code>0x05</code></td>
+                      <td><code>Container Mode</code></td>
+                      <td>1 Byte</td>
+                      <td>Uint8 (<code>0x01</code> or <code>0x02</code>)</td>
+                      <td><code>0x01</code> = Single-Pass Payload, <code>0x02</code> = Chunked Stream.</td>
+                    </tr>
+                    <tr>
+                      <td><code>0x06 - 0x09</code></td>
+                      <td><code>Chunk Size</code></td>
+                      <td>4 Bytes</td>
+                      <td>Uint32 Big-Endian</td>
+                      <td>Chunk buffer size in bytes (e.g., <code>1,048,576</code> for 1 MiB default; 0 for single-pass).</td>
+                    </tr>
+                    <tr>
+                      <td><code>0x0A - 0x0D</code></td>
+                      <td><code>PBKDF2 Iterations</code></td>
+                      <td>4 Bytes</td>
+                      <td>Uint32 Big-Endian</td>
+                      <td>Iteration count for key derivation (default: <code>600,000</code>).</td>
+                    </tr>
+                    <tr>
+                      <td><code>0x0E - 0x1D</code></td>
+                      <td><code>PBKDF2 Salt</code></td>
+                      <td>16 Bytes</td>
+                      <td>Binary (128-bit CSPRNG)</td>
+                      <td>Cryptographic random salt for key derivation.</td>
+                    </tr>
+                    <tr>
+                      <td><code>0x1E - 0x29</code></td>
+                      <td><code>Base Nonce / IV</code></td>
+                      <td>12 Bytes</td>
+                      <td>Binary (96-bit CSPRNG)</td>
+                      <td>Base initialization vector for AES-256-GCM cipher operations.</td>
+                    </tr>
+                    <tr>
+                      <td><code>0x2A - 0x2B</code></td>
+                      <td><code>Metadata Length (M)</code></td>
+                      <td>2 Bytes</td>
+                      <td>Uint16 Big-Endian</td>
+                      <td>Byte length <em>M</em> of the subsequent UTF-8 JSON metadata payload.</td>
+                    </tr>
+                    <tr>
+                      <td><code>0x2C - 0x2B+M</code></td>
+                      <td><code>File Metadata</code></td>
+                      <td><em>M</em> Bytes</td>
+                      <td>UTF-8 JSON string</td>
+                      <td>Original file name, MIME type, file size, compression mode, and directory tree manifest.</td>
+                    </tr>
+                    <tr>
+                      <td><code>0x2C+M - ...</code></td>
+                      <td><code>Encrypted Payload</code></td>
+                      <td>Variable</td>
+                      <td>AES-256-GCM Bytes</td>
+                      <td>Single-pass ciphertext + 16B tag, or sequence of framed stream chunks with independent counter IVs.</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <h4>2. Text Armored Envelope Layout (34 Bytes Header + Ciphertext)</h4>
+              <p>
+                Prior to Base64URL encoding (with <code>OCPT_</code> prefix), text ciphertexts are packed into a compact 34-byte binary envelope:
+              </p>
+              <div class="table-container">
+                <table class="docs-data-table">
+                  <thead>
+                    <tr>
+                      <th>Byte Offset</th>
+                      <th>Field Name</th>
+                      <th>Length</th>
+                      <th>Format</th>
+                      <th>Description</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><code>0x00</code></td>
+                      <td><code>Version</code></td>
+                      <td>1 Byte</td>
+                      <td>Uint8 (<code>0x01</code>)</td>
+                      <td>Format version indicator.</td>
+                    </tr>
+                    <tr>
+                      <td><code>0x01</code></td>
+                      <td><code>Compression Flag</code></td>
+                      <td>1 Byte</td>
+                      <td>Uint8 (<code>0x00</code> / <code>0x01</code>)</td>
+                      <td><code>0x00</code> = None, <code>0x01</code> = Gzip/Deflate.</td>
+                    </tr>
+                    <tr>
+                      <td><code>0x02 - 0x05</code></td>
+                      <td><code>Iterations</code></td>
+                      <td>4 Bytes</td>
+                      <td>Uint32 Big-Endian</td>
+                      <td>PBKDF2-HMAC-SHA256 round count (e.g. 600,000).</td>
+                    </tr>
+                    <tr>
+                      <td><code>0x06 - 0x15</code></td>
+                      <td><code>Salt</code></td>
+                      <td>16 Bytes</td>
+                      <td>Binary CSPRNG</td>
+                      <td>128-bit key derivation salt.</td>
+                    </tr>
+                    <tr>
+                      <td><code>0x16 - 0x21</code></td>
+                      <td><code>Nonce / IV</code></td>
+                      <td>12 Bytes</td>
+                      <td>Binary CSPRNG</td>
+                      <td>96-bit AES-GCM initialization vector.</td>
+                    </tr>
+                    <tr>
+                      <td><code>0x22 - ...</code></td>
+                      <td><code>Ciphertext + Tag</code></td>
+                      <td>Variable + 16B</td>
+                      <td>AES-256-GCM</td>
+                      <td>Encrypted UTF-8 text followed by 128-bit MAC authentication tag.</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <h4>3. Stealth / Obfuscated File Container (55 + M Bytes Header)</h4>
+              <div class="table-container">
+                <table class="docs-data-table">
+                  <thead>
+                    <tr>
+                      <th>Byte Offset</th>
+                      <th>Field Name</th>
+                      <th>Length</th>
+                      <th>Description</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><code>0x00 - 0x2F</code></td>
+                      <td><code>Randomized Envelope</code></td>
+                      <td>48 Bytes</td>
+                      <td>8B token + 1B version + 1B compression + 4B iterations + 16B salt + 12B IV + 6B filler.</td>
+                    </tr>
+                    <tr>
+                      <td><code>0x30</code></td>
+                      <td><code>Container Mode</code></td>
+                      <td>1 Byte</td>
+                      <td>Operational mode byte (Single-Pass or Stream).</td>
+                    </tr>
+                    <tr>
+                      <td><code>0x31 - 0x34</code></td>
+                      <td><code>Chunk Size</code></td>
+                      <td>4 Bytes</td>
+                      <td>Uint32 Big-Endian chunk size.</td>
+                    </tr>
+                    <tr>
+                      <td><code>0x35 - 0x36</code></td>
+                      <td><code>Metadata Length (M)</code></td>
+                      <td>2 Bytes</td>
+                      <td>Uint16 Big-Endian byte length of JSON metadata.</td>
+                    </tr>
+                    <tr>
+                      <td><code>0x37 - 0x36+M</code></td>
+                      <td><code>Metadata JSON</code></td>
+                      <td><em>M</em> Bytes</td>
+                      <td>UTF-8 JSON metadata payload.</td>
+                    </tr>
+                    <tr>
+                      <td><code>0x37+M - ...</code></td>
+                      <td><code>Encrypted Payload</code></td>
+                      <td>Variable</td>
+                      <td>Uniform high-entropy AES-256-GCM ciphertext stream.</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Subtopic: License & Verification -->
+            <div id="tech-license" class="docs-subtopic-block">
+              <h3>Open Source & License</h3>
+              <p>
+                OpenCrypt is free software distributed under the terms of the <strong>GNU Affero General Public License v3.0 (AGPL-3.0)</strong>.
+              </p>
+              <p>
+                Under the AGPL-3.0 license, you are free to inspect, audit, modify, and self-host OpenCrypt on private internal networks or air-gapped hardware. Any modifications or deployments made available over computer networks must make their corresponding source code publicly available under the same license terms.
+              </p>
+              <div class="docs-callout-box">
+                <h4>Auditing and Source Code:</h4>
+                <p>
+                  GitHub Repository: <a href="https://github.com/omwardhanM/OpenCrypt" target="_blank" rel="noopener noreferrer" class="docs-inline-link">https://github.com/omwardhanM/OpenCrypt ↗</a>
+                </p>
+                <p>
+                  Developer: <a href="https://omwardhan.pages.dev/" target="_blank" rel="noopener noreferrer" class="docs-inline-link">Omwardhan Mishra ↗</a>
+                </p>
+              </div>
+            </div>
+          </section>
+
+        </article>
+      </main>
+
+    </div>
+
+    <!-- ====================================================================
+         3. Full-Width Footer
+         ==================================================================== -->
+    <footer class="app-footer docs-page-footer">
+      <div class="footer-container">
+        <div class="footer-content">
+          <!-- Left Side: Brand & Cryptographic Details -->
+          <div class="footer-left">
+            <div class="footer-logo">
+              <div class="footer-logo-badge">
+                <img src="../logo_OC.webp" alt="OpenCrypt Icon" class="footer-logo-img" width="14" height="14" />
+              </div>
+              <strong>OpenCrypt</strong>
+            </div>
+            <span class="footer-divider" aria-hidden="true">·</span>
+            <span class="footer-tech-info">
+              <span class="tech-full">AES-256-GCM · PBKDF2-SHA256 · AGPL-3.0 License</span>
+              <span class="tech-short">AES-256-GCM · PBKDF2 · AGPL-3.0</span>
+            </span>
+          </div>
+
+          <!-- Right Side: Docs, GitHub Repo & Developer Credits -->
+          <div class="footer-right">
+            <a href="/" class="footer-pill-btn footer-docs-link" title="OpenCrypt App" aria-label="OpenCrypt App">
+              <svg width="13" height="13" class="footer-btn-icon">
+                <use href="#icon-arrow-left"></use>
+              </svg>
+              <span>App</span>
+            </a>
+            <a href="https://github.com/omwardhanM/OpenCrypt" target="_blank" rel="noopener noreferrer"
+              class="footer-pill-btn footer-github-link" title="OpenCrypt GitHub Repository" aria-label="OpenCrypt GitHub Repository">
+              <svg width="14" height="14" class="footer-btn-icon footer-github-icon">
+                <use href="#icon-github"></use>
+              </svg>
+              <span>GitHub</span>
+            </a>
+            <a href="https://omwardhan.pages.dev/" target="_blank" rel="noopener noreferrer"
+              class="footer-credit footer-credit-link" title="Developed by Omwardhan Mishra" aria-label="Developed by Omwardhan Mishra">
+              <span>Developed by <strong>Omwardhan Mishra</strong></span>
+              <svg width="10" height="10" class="footer-external-arrow">
+                <use href="#icon-arrow-up-right"></use>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- Docs Controller Script -->
+</body>
+
+</html>

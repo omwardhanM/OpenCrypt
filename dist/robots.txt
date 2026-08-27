@@ -1,0 +1,10 @@
+# OpenCrypt robots.txt
+# https://opencrypt.pages.dev
+
+User-agent: *
+Allow: /
+Allow: /docs
+
+# XML Sitemap
+Sitemap: https://opencrypt.pages.dev/sitemap.xml
+Host: https://opencrypt.pages.dev

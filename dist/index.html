@@ -1,0 +1,796 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OpenCrypt — Encrypt Files &amp; Text in Your Browser (AES-256-GCM)</title>
+  
+  <!-- Primary Meta Tags for Search Engines & Users -->
+  <meta name="title" content="OpenCrypt — Encrypt Files &amp; Text in Your Browser (AES-256-GCM)" />
+  <meta name="description" content="Free, private client-side encryption in your browser. Encrypt large files, entire folders, and sensitive text locally with AES-256-GCM and PBKDF2 (600k rounds). No uploads, no servers, works 100% offline." />
+  <meta name="keywords" content="encrypt files online, file encryptor, browser file encryption, encrypt text online, AES-256-GCM, PBKDF2, client-side encryption, secure file encryption, offline file encryptor, password protect files, Web Crypto API, open source file encryption, stream large file encryption" />
+  <meta name="author" content="Omwardhan Mishra" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://opencrypt.pages.dev/" />
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://opencrypt.pages.dev/" />
+  <meta property="og:site_name" content="OpenCrypt" />
+  <meta property="og:title" content="OpenCrypt — Encrypt Files &amp; Text in Your Browser (AES-256-GCM)" />
+  <meta property="og:description" content="Free, private client-side encryption in your browser. Encrypt large files, folders, and text locally with AES-256-GCM. No uploads, zero server transmission." />
+  <meta property="og:image" content="https://opencrypt.pages.dev/logo_OC.webp" />
+
+  <!-- Twitter Cards -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:url" content="https://opencrypt.pages.dev/" />
+  <meta name="twitter:title" content="OpenCrypt — Encrypt Files &amp; Text in Your Browser (AES-256-GCM)" />
+  <meta name="twitter:description" content="Free, private client-side encryption in your browser. Encrypt large files, folders, and text locally with AES-256-GCM. No uploads, zero server transmission." />
+  <meta name="twitter:image" content="https://opencrypt.pages.dev/logo_OC.webp" />
+
+  <!-- Structured Data JSON-LD (Web Application Schema) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "OpenCrypt",
+    "url": "https://opencrypt.pages.dev/",
+    "applicationCategory": "SecurityApplication",
+    "operatingSystem": "All modern web browsers (Chrome, Firefox, Safari, Edge)",
+    "description": "Client-side file and text encryption workstation powered by native Web Crypto API (AES-256-GCM and PBKDF2-HMAC-SHA256).",
+    "featureList": [
+      "AES-256-GCM Authenticated Encryption",
+      "PBKDF2-HMAC-SHA256 Key Derivation (600,000 rounds)",
+      "Large Multi-Gigabyte File Streaming via Web Workers",
+      "Folder Structure & Multi-File Archiving",
+      "Pre-Encryption Deflate Compression",
+      "Signature Obfuscation (Stealth Containers)",
+      "Text Base64URL Armored Encryption",
+      "100% Client-Side Local Processing with Zero Server Uploads"
+    ],
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "author": {
+      "@type": "Person",
+      "name": "Omwardhan Mishra",
+      "url": "https://omwardhan.pages.dev"
+    },
+    "license": "https://www.gnu.org/licenses/agpl-3.0.html"
+  }
+  </script>
+
+  <!-- Production-Grade Multi-Platform Favicons -->
+  <link rel="icon" type="image/x-icon" href="./favicon/favicon.ico" />
+  <link rel="icon" type="image/png" sizes="16x16" href="./favicon/favicon-16x16.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="./favicon/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="48x48" href="./favicon/favicon-48x48.png" />
+  <link rel="icon" type="image/png" sizes="96x96" href="./favicon/favicon-96x96.png" />
+  <link rel="apple-touch-icon" sizes="120x120" href="./favicon/apple-touch-icon-120x120.png" />
+  <link rel="apple-touch-icon" sizes="152x152" href="./favicon/apple-touch-icon-152x152.png" />
+  <link rel="apple-touch-icon" sizes="167x167" href="./favicon/apple-touch-icon-167x167.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="./favicon/apple-touch-icon.png" />
+  <link rel="manifest" href="./favicon/site.webmanifest" />
+  <meta name="theme-color" content="#dbd2c3" />
+  <meta name="msapplication-TileColor" content="#dbd2c3" />
+  <meta name="msapplication-config" content="./favicon/browserconfig.xml" />
+
+  <!-- Google Fonts: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
+    rel="stylesheet" />
+
+  <!-- App Stylesheet -->
+  <script type="module" crossorigin src="./assets/main-B2enEHqI.js"></script>
+  <link rel="modulepreload" crossorigin href="./assets/style-CiND01qb.js">
+  <link rel="stylesheet" crossorigin href="./assets/style-BBOFdsAS.css">
+</head>
+
+<body>
+  <!-- Reusable SVG Icon Sprites -->
+  <svg style="display: none;">
+    <defs>
+      <!-- Shield Logo -->
+      <symbol id="icon-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+      </symbol>
+
+      <!-- Key -->
+      <symbol id="icon-key" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 2l-2 2m-1.5 1.5L16 7l-1.5-1.5L13 7l-1.5-1.5L10 7l-2-2" />
+        <circle cx="7.5" cy="15.5" r="5.5" />
+      </symbol>
+
+      <!-- Google Material Lock (Encrypt) -->
+      <symbol id="icon-lock" viewBox="0 0 24 24" fill="currentColor">
+        <path
+          d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z" />
+      </symbol>
+
+      <!-- Google Material Unlock / Lock Open (Decrypt) -->
+      <symbol id="icon-unlock" viewBox="0 0 24 24" fill="currentColor">
+        <path
+          d="M12 17c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm6-9h-1V6c0-2.76-2.24-5-5-5-2.28 0-4.27 1.54-4.84 3.75-.14.54.18 1.08.72 1.21.53.12 1.08-.18 1.22-.72C10.51 3.78 11.23 3 12 3c1.66 0 3 1.34 3 3v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm0 12H6V10h12v10z" />
+      </symbol>
+
+      <!-- Upload Cloud -->
+      <symbol id="icon-upload" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+        <polyline points="17 8 12 3 7 8" />
+        <line x1="12" y1="3" x2="12" y2="15" />
+      </symbol>
+
+      <!-- Download -->
+      <symbol id="icon-download" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+        <polyline points="7 10 12 15 17 10" />
+        <line x1="12" y1="15" x2="12" y2="3" />
+      </symbol>
+
+      <!-- Copy -->
+      <symbol id="icon-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round">
+        <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+      </symbol>
+
+      <!-- Checkmark -->
+      <symbol id="icon-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+        stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="20 6 9 17 4 12" />
+      </symbol>
+
+      <!-- Eye (Show Password) -->
+      <symbol id="icon-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round">
+        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+        <circle cx="12" cy="12" r="3" />
+      </symbol>
+
+      <!-- Eye Off (Hide Password) -->
+      <symbol id="icon-eye-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round">
+        <path
+          d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24" />
+        <line x1="1" y1="1" x2="23" y2="23" />
+      </symbol>
+
+      <!-- Trash / Clear -->
+      <symbol id="icon-trash" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="3 6 5 6 21 6" />
+        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+      </symbol>
+
+      <!-- Close / Cross -->
+      <symbol id="icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+        stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18" />
+        <line x1="6" y1="6" x2="18" y2="18" />
+      </symbol>
+
+      <!-- File -->
+      <symbol id="icon-file" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+        <polyline points="14 2 14 8 20 8" />
+      </symbol>
+
+      <!-- Text / Message -->
+      <symbol id="icon-file-text" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+        <polyline points="14 2 14 8 20 8" />
+        <line x1="16" y1="13" x2="8" y2="13" />
+        <line x1="16" y1="17" x2="8" y2="17" />
+        <polyline points="10 9 9 9 8 9" />
+      </symbol>
+
+      <!-- Theme Toggle Icon -->
+      <symbol id="icon-theme" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="5" />
+        <line x1="12" y1="1" x2="12" y2="3" />
+        <line x1="12" y1="21" x2="12" y2="23" />
+        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+        <line x1="1" y1="12" x2="3" y2="12" />
+        <line x1="21" y1="12" x2="23" y2="12" />
+        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+      </symbol>
+
+      <!-- Refresh / Generate (Google Material) -->
+      <symbol id="icon-refresh" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M17.65 6.35A7.958 7.958 0 0 0 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08A5.99 5.99 0 0 1 12 18c-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z" />
+      </symbol>
+
+      <!-- Edit / Rename Pencil (Google Material) -->
+      <symbol id="icon-edit" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a.996.996 0 0 0 0-1.41l-2.34-2.34a.996.996 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" />
+      </symbol>
+
+      <!-- Settings / Sliders -->
+      <symbol id="icon-sliders" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round">
+        <line x1="4" y1="21" x2="4" y2="14" />
+        <line x1="4" y1="10" x2="4" y2="3" />
+        <line x1="12" y1="21" x2="12" y2="12" />
+        <line x1="12" y1="8" x2="12" y2="3" />
+        <line x1="20" y1="21" x2="20" y2="16" />
+        <line x1="20" y1="12" x2="20" y2="3" />
+        <line x1="1" y1="14" x2="7" y2="14" />
+        <line x1="9" y1="8" x2="15" y2="8" />
+        <line x1="17" y1="16" x2="23" y2="16" />
+      </symbol>
+
+      <!-- Gear / Settings -->
+      <symbol id="icon-gear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="3" />
+        <path
+          d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
+      </symbol>
+
+      <!-- Dropdown Caret / Chevron -->
+      <symbol id="icon-chevron-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+        stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="6 9 12 15 18 9" />
+      </symbol>
+
+      <!-- Speed / Gauge -->
+      <symbol id="icon-speed" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 14l4-4" />
+        <path d="M3.34 19a10 10 0 1 1 17.32 0" />
+      </symbol>
+
+      <!-- Clock / ETA -->
+      <symbol id="icon-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10" />
+        <polyline points="12 6 12 12 16 14" />
+      </symbol>
+
+      <!-- Storage / Processed Data -->
+      <symbol id="icon-storage" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round">
+        <ellipse cx="12" cy="5" rx="9" ry="3" />
+        <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3" />
+        <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5" />
+      </symbol>
+
+      <!-- Info Tooltip -->
+      <symbol id="icon-info" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10" />
+        <line x1="12" y1="16" x2="12" y2="12" />
+        <line x1="12" y1="8" x2="12.01" y2="8" />
+      </symbol>
+      <!-- Docs / Documentation Icon -->
+      <symbol id="icon-docs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+      </symbol>
+      <!-- GitHub Logo -->
+      <symbol id="icon-github" viewBox="0 0 24 24" fill="currentColor">
+        <path fill-rule="evenodd" clip-rule="evenodd"
+          d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0 0 22 12.017C22 6.484 17.522 2 12 2z" />
+      </symbol>
+      <!-- External Arrow Diagonal (Up-Right) -->
+      <symbol id="icon-arrow-up-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"
+        stroke-linecap="round" stroke-linejoin="round">
+        <line x1="7" y1="17" x2="17" y2="7" />
+        <polyline points="7 7 17 7 17 17" />
+      </symbol>
+    </defs>
+  </svg>
+
+  <div class="app-container">
+
+    <!-- ====================================================================
+           1. Header
+           ==================================================================== -->
+    <header class="app-header">
+
+      <!-- Brand Hero -->
+      <div class="hero-brand">
+        <div class="brand-top-row">
+          <div class="brand-title-row">
+            <div class="brand-logo">
+              <img src="./logo_OC.webp" alt="OpenCrypt Logo" class="brand-logo-img" width="56" height="56" />
+            </div>
+            <h1 class="brand-title">OpenCrypt</h1>
+          </div>
+
+          <button type="button" class="btn-theme-toggle" id="btn-theme-toggle" aria-label="Toggle theme">
+            <svg width="14" height="14">
+              <use href="#icon-theme"></use>
+            </svg>
+            <span id="theme-toggle-label">Dark mode</span>
+          </button>
+        </div>
+
+        <p class="brand-subtitle">
+          Private encryption, right in your browser. Encrypt files and messages locally with strong, modern cryptography.<br />Open-source. No uploads. No servers.
+        </p>
+      </div>
+
+    </header>
+
+    <!-- ====================================================================
+           2. Segmented Navigation Tabs
+           ==================================================================== -->
+    <nav class="tab-nav-container" aria-label="Vault mode switch">
+      <div class="tab-nav" id="tab-nav">
+        <div class="tab-indicator" id="tab-indicator"></div>
+
+        <button type="button" class="tab-btn active" id="tab-btn-file" data-tab="panel-file">
+          <svg width="15" height="15">
+            <use href="#icon-file"></use>
+          </svg>
+          <span>Files</span>
+        </button>
+
+        <button type="button" class="tab-btn" id="tab-btn-text" data-tab="panel-text">
+          <svg width="15" height="15">
+            <use href="#icon-file-text"></use>
+          </svg>
+          <span>Text</span>
+        </button>
+      </div>
+    </nav>
+
+    <!-- ====================================================================
+           3. Main Application Panels
+           ==================================================================== -->
+    <main class="vault-panels">
+
+      <!-- PANEL 1: File & Stream Vault -->
+      <section class="tab-panel active" id="panel-file" role="tabpanel" aria-labelledby="tab-btn-file">
+        <div class="crypto-card">
+
+          <div class="card-header">
+            <div class="card-title-group">
+              <h2 class="card-title">Encrypt &amp; Decrypt Files</h2>
+              <span class="card-tag">End-to-end encrypted · Runs in browser</span>
+            </div>
+          </div>
+
+          <!-- Drag & Drop Zone -->
+          <div class="field-group">
+            <div class="dropzone" id="file-dropzone" tabindex="0" role="button" aria-label="File upload dropzone">
+              <input type="file" id="file-input" class="dropzone-file-input" multiple />
+              
+              <!-- Desktop Drag & Drop Prompt -->
+              <div class="dropzone-desktop-prompt">
+                <div class="dropzone-icon">
+                  <svg width="24" height="24">
+                    <use href="#icon-upload"></use>
+                  </svg>
+                </div>
+                <div class="dropzone-title">
+                  <span>Drop your files here, or</span> <span class="dropzone-browse-link">browse device</span>
+                </div>
+                <div class="dropzone-subtitle">Supports all file types · Single or multiple files</div>
+              </div>
+
+              <!-- Mobile Native Choose File Button Prompt -->
+              <div class="dropzone-mobile-prompt">
+                <div class="mobile-picker-btn">
+                  <svg width="18" height="18">
+                    <use href="#icon-upload"></use>
+                  </svg>
+                  <span>Choose Files / Folder</span>
+                </div>
+                <div class="mobile-picker-subtext">Single or multiple files supported</div>
+              </div>
+
+              <!-- Selected Single File / Multi-File Container -->
+              <div class="dropzone-file-info" id="file-info" style="display: none;">
+                No file selected.
+              </div>
+
+              <!-- Multi-File Batch Selection List -->
+              <div class="dropzone-batch-container" id="dropzone-batch-container" style="display: none;"></div>
+            </div>
+
+            <!-- Intelligent Threshold Warnings Banner -->
+            <div class="warning-banner" id="file-warnings" style="display: none;"></div>
+          </div>
+
+          <!-- Secret Key Input Group -->
+          <div class="field-group password-group">
+            <div class="password-row-container">
+              <div class="password-main-col">
+                <div class="field-label-row">
+                  <label for="file-password" class="field-label">Enter Passphrase</label>
+                  <span class="entropy-label" id="file-entropy-label">Strength: None</span>
+                </div>
+                <div class="password-input-wrapper">
+                  <input type="password" id="file-password" placeholder="Enter or generate passphrase..."
+                    autocomplete="off" />
+                  <div class="input-actions-group">
+                    <button type="button" class="btn-input-action" id="btn-copy-file-pwd" aria-label="Copy passphrase"
+                      title="Copy passphrase">
+                      <svg width="14" height="14">
+                        <use href="#icon-copy"></use>
+                      </svg>
+                    </button>
+                    <button type="button" class="btn-input-action" id="btn-toggle-file-pwd"
+                      aria-label="Toggle password visibility" title="Toggle visibility">
+                      <svg width="16" height="16">
+                        <use href="#icon-eye"></use>
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+                <div class="entropy-track" aria-hidden="true">
+                  <div class="entropy-fill" id="file-entropy-fill"></div>
+                </div>
+              </div>
+              <div class="password-actions-col">
+                <button type="button" class="btn-generate-inline" id="btn-generate-file-pwd"
+                  title="Generate strong passphrase">
+                  <svg width="14" height="14">
+                    <use href="#icon-refresh"></use>
+                  </svg>
+                  <span>Generate</span>
+                </button>
+                <button type="button" class="btn-options-toggle" id="btn-toggle-file-options" aria-expanded="false"
+                  title="Toggle Advanced Settings">
+                  <svg width="13" height="13">
+                    <use href="#icon-gear"></use>
+                  </svg>
+                  <span>Advanced Settings</span>
+                  <svg width="12" height="12" class="icon-caret">
+                    <use href="#icon-chevron-down"></use>
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- Collapsible Advanced Container Settings Panel -->
+            <div class="advanced-panel" id="panel-file-options" style="display: none;">
+              <div class="options-box">
+                <div class="options-grid">
+
+                  <label class="switch-control">
+                    <input type="checkbox" id="chk-streaming-mode" checked />
+                    <span class="switch-track">
+                      <span class="switch-thumb"></span>
+                    </span>
+                    <span class="switch-label-text">
+                      <span class="switch-title-row">
+                        <strong>Large File Streaming</strong>
+                        <span class="tooltip-trigger" tabindex="0" aria-label="Streams data in 64MB chunks via dedicated Web Workers and Web Streams API. Eliminates browser RAM limits and enables fast encryption of multi-gigabyte files.">
+                          <svg class="tooltip-icon"><use href="#icon-info"></use></svg>
+                          <span class="tooltip-bubble" role="tooltip">Streams data in 64MB chunks via dedicated Web Workers and Web Streams API. Eliminates browser RAM limits and enables fast encryption of multi-gigabyte files.</span>
+                        </span>
+                      </span>
+                      <span class="switch-subtext">Stream large files efficiently with low memory usage</span>
+                    </span>
+                  </label>
+
+                  <label class="switch-control">
+                    <input type="checkbox" id="chk-compress-file" checked />
+                    <span class="switch-track">
+                      <span class="switch-thumb"></span>
+                    </span>
+                    <span class="switch-label-text">
+                      <span class="switch-title-row">
+                        <strong>Pre-Encryption Compression</strong>
+                        <span class="tooltip-trigger" tabindex="0" aria-label="Applies DEFLATE compression before cryptographic wrapping. Significantly reduces output file size and mitigates pattern analysis.">
+                          <svg class="tooltip-icon"><use href="#icon-info"></use></svg>
+                          <span class="tooltip-bubble" role="tooltip">Applies DEFLATE compression before cryptographic wrapping. Significantly reduces output file size and mitigates pattern analysis.</span>
+                        </span>
+                      </span>
+                      <span class="switch-subtext">Compresses data before encryption to reduce output size</span>
+                    </span>
+                  </label>
+
+                  <label class="switch-control">
+                    <input type="checkbox" id="chk-obfuscate-signature" checked />
+                    <span class="switch-track">
+                      <span class="switch-thumb"></span>
+                    </span>
+                    <span class="switch-label-text">
+                      <span class="switch-title-row">
+                        <strong>Signature Obfuscation</strong>
+                        <span class="tooltip-trigger" tabindex="0" aria-label="Omits static 4-byte magic headers and scatters container metadata across 8 mathematical offset schemas to resist deep packet inspection.">
+                          <svg class="tooltip-icon"><use href="#icon-info"></use></svg>
+                          <span class="tooltip-bubble" role="tooltip">Omits static 4-byte magic headers and scatters container metadata across 8 mathematical offset schemas to resist deep packet inspection.</span>
+                        </span>
+                      </span>
+                      <span class="switch-subtext">Reduces recognizable format signatures and randomizes the container structure</span>
+                    </span>
+                  </label>
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="action-button-row">
+            <button type="button" class="btn btn-primary" id="btn-encrypt-file">
+              <svg width="16" height="16">
+                <use href="#icon-lock"></use>
+              </svg>
+              <span id="label-encrypt-file">Encrypt File</span>
+            </button>
+
+            <button type="button" class="btn btn-secondary" id="btn-decrypt-file">
+              <svg width="16" height="16">
+                <use href="#icon-unlock"></use>
+              </svg>
+              <span id="label-decrypt-file">Decrypt File</span>
+            </button>
+
+            <button type="button" class="btn btn-ghost" id="btn-clear-file">
+              <svg width="15" height="15">
+                <use href="#icon-trash"></use>
+              </svg>
+              <span>Clear</span>
+            </button>
+          </div>
+
+          <!-- File Output / Download Container -->
+          <div class="field-group output-group">
+            <div class="field-label-row">
+              <label class="field-label">Output &amp; Results</label>
+            </div>
+            <div id="file-output-container" class="output-box">
+              <span class="output-placeholder">Processed encrypted file or restored download will appear here.</span>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- PANEL 2: Armored Text Suite -->
+      <section class="tab-panel" id="panel-text" role="tabpanel" aria-labelledby="tab-btn-text">
+        <div class="crypto-card">
+
+          <div class="card-header">
+            <div class="card-title-group">
+              <h2 class="card-title">Encrypt &amp; Decrypt Text</h2>
+              <span class="card-tag">Messages, notes, and keys</span>
+            </div>
+          </div>
+
+          <!-- Text Input Group -->
+          <div class="field-group">
+            <div class="field-label-row">
+              <label for="text-input" class="field-label"><span class="label-full">Message / Encrypted Text</span><span class="label-short">Message / Text</span></label>
+              <div class="field-label-actions">
+                <span class="char-counter" id="text-char-count">0 chars</span>
+                <button type="button" class="btn-copy" id="btn-copy-input-text" aria-label="Copy input text">
+                  <svg width="13" height="13">
+                    <use href="#icon-copy"></use>
+                  </svg>
+                  <span id="btn-copy-input-text-label">Copy</span>
+                </button>
+              </div>
+            </div>
+            <div class="input-well">
+              <textarea id="text-input" rows="4"
+                placeholder="Type a message to encrypt, or paste encrypted text to decrypt..."
+                spellcheck="false"></textarea>
+            </div>
+          </div>
+
+          <!-- Secret Key Input Group -->
+          <div class="field-group password-group">
+            <div class="password-row-container">
+              <div class="password-main-col">
+                <div class="field-label-row">
+                  <label for="text-password" class="field-label">Enter Passphrase</label>
+                  <span class="entropy-label" id="text-entropy-label">Strength: None</span>
+                </div>
+                <div class="password-input-wrapper">
+                  <input type="password" id="text-password" placeholder="Enter or generate passphrase..."
+                    autocomplete="off" />
+                  <div class="input-actions-group">
+                    <button type="button" class="btn-input-action" id="btn-copy-text-pwd" aria-label="Copy passphrase"
+                      title="Copy passphrase">
+                      <svg width="14" height="14">
+                        <use href="#icon-copy"></use>
+                      </svg>
+                    </button>
+                    <button type="button" class="btn-input-action" id="btn-toggle-text-pwd"
+                      aria-label="Toggle password visibility" title="Toggle visibility">
+                      <svg width="16" height="16">
+                        <use href="#icon-eye"></use>
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+                <div class="entropy-track" aria-hidden="true">
+                  <div class="entropy-fill" id="text-entropy-fill"></div>
+                </div>
+              </div>
+              <div class="password-actions-col">
+                <button type="button" class="btn-generate-inline" id="btn-generate-text-pwd"
+                  title="Generate strong passphrase">
+                  <svg width="14" height="14">
+                    <use href="#icon-refresh"></use>
+                  </svg>
+                  <span>Generate</span>
+                </button>
+                <button type="button" class="btn-options-toggle" id="btn-toggle-text-options" aria-expanded="false"
+                  title="Toggle Advanced Settings">
+                  <svg width="13" height="13">
+                    <use href="#icon-gear"></use>
+                  </svg>
+                  <span>Advanced Settings</span>
+                  <svg width="12" height="12" class="icon-caret">
+                    <use href="#icon-chevron-down"></use>
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- Collapsible Advanced Text Options Panel -->
+            <div class="advanced-panel" id="panel-text-options" style="display: none;">
+              <div class="options-box">
+                <div class="options-grid">
+
+                  <label class="switch-control">
+                    <input type="checkbox" id="chk-compress-text" />
+                    <span class="switch-track">
+                      <span class="switch-thumb"></span>
+                    </span>
+                    <span class="switch-label-text">
+                      <span class="switch-title-row">
+                        <strong>Pre-Encryption Compression</strong>
+                        <span class="tooltip-trigger" tabindex="0" aria-label="Compresses long text or source code via gzip before encryption to minimize the character count of the resulting armored payload.">
+                          <svg class="tooltip-icon"><use href="#icon-info"></use></svg>
+                          <span class="tooltip-bubble" role="tooltip">Compresses long text or source code via gzip before encryption to minimize the character count of the resulting armored payload.</span>
+                        </span>
+                      </span>
+                      <span class="switch-subtext">Compresses data before encryption to reduce output size</span>
+                    </span>
+                  </label>
+
+                  <label class="switch-control">
+                    <input type="checkbox" id="chk-obfuscate-text" checked />
+                    <span class="switch-track">
+                      <span class="switch-thumb"></span>
+                    </span>
+                    <span class="switch-label-text">
+                      <span class="switch-title-row">
+                        <strong>Signature Obfuscation</strong>
+                        <span class="tooltip-trigger" tabindex="0" aria-label="Generates a continuous Base64URL armored string without dot delimiters or 'OCPT1' headers, matching dynamic randomized token schemas.">
+                          <svg class="tooltip-icon"><use href="#icon-info"></use></svg>
+                          <span class="tooltip-bubble" role="tooltip">Generates a continuous Base64URL armored string without dot delimiters or 'OCPT1' headers, matching dynamic randomized token schemas.</span>
+                        </span>
+                      </span>
+                      <span class="switch-subtext">Reduces recognizable format signatures and randomizes the container structure</span>
+                    </span>
+                  </label>
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="action-button-row">
+            <button type="button" class="btn btn-primary" id="btn-encrypt-text">
+              <svg width="16" height="16">
+                <use href="#icon-lock"></use>
+              </svg>
+              <span id="label-encrypt-text">Encrypt Text</span>
+            </button>
+
+            <button type="button" class="btn btn-secondary" id="btn-decrypt-text">
+              <svg width="16" height="16">
+                <use href="#icon-unlock"></use>
+              </svg>
+              <span id="label-decrypt-text">Decrypt Text</span>
+            </button>
+
+            <button type="button" class="btn btn-ghost" id="btn-clear-text">
+              <svg width="15" height="15">
+                <use href="#icon-trash"></use>
+              </svg>
+              <span>Clear</span>
+            </button>
+          </div>
+
+          <!-- Output Result Group -->
+          <div class="field-group output-group">
+            <div class="field-label-row">
+              <label for="text-output" class="field-label">Output &amp; Results</label>
+              <div class="output-action-group">
+                <button type="button" class="btn-copy" id="btn-copy-text" aria-label="Copy output to clipboard">
+                  <svg width="14" height="14">
+                    <use href="#icon-copy"></use>
+                  </svg>
+                  <span id="btn-copy-text-label">Copy</span>
+                </button>
+                <button type="button" class="btn-copy btn-download-text" id="btn-download-text" aria-label="Download result as text file">
+                  <svg width="14" height="14">
+                    <use href="#icon-download"></use>
+                  </svg>
+                  <span id="btn-download-text-label">Download</span>
+                </button>
+              </div>
+            </div>
+            <div class="input-well output-well">
+              <textarea id="text-output" rows="4" readonly
+                placeholder="Encrypted result or decrypted message will appear here..." spellcheck="false"></textarea>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+    </main>
+
+  </div>
+
+  <!-- Full-Width App Footer -->
+  <footer class="app-footer">
+    <div class="footer-container">
+      <div class="footer-content">
+        <!-- Left Side: Brand & Technical Stack / License -->
+        <div class="footer-left">
+          <span class="footer-logo">
+            <span class="footer-logo-badge">
+              <img src="./logo_OC.webp" alt="OpenCrypt Logo" class="footer-logo-img" width="16" height="16" />
+            </span>
+            <strong>OpenCrypt</strong>
+          </span>
+          <span class="footer-divider">·</span>
+          <span class="footer-tech-info">
+            <span class="tech-full">AES-256-GCM · PBKDF2-SHA256 · AGPL-3.0 License</span>
+            <span class="tech-short">AES-256-GCM · PBKDF2 · AGPL-3.0</span>
+          </span>
+        </div>
+
+        <!-- Right Side: Docs, GitHub Repo & Developer Credits -->
+        <div class="footer-right">
+          <a href="/docs" class="footer-pill-btn footer-docs-link" title="OpenCrypt Documentation" aria-label="OpenCrypt Documentation">
+            <svg width="13" height="13" class="footer-btn-icon">
+              <use href="#icon-docs"></use>
+            </svg>
+            <span>Docs</span>
+          </a>
+          <a href="https://github.com/omwardhanM/OpenCrypt" target="_blank" rel="noopener noreferrer"
+            class="footer-pill-btn footer-github-link" title="OpenCrypt GitHub Repository" aria-label="OpenCrypt GitHub Repository">
+            <svg width="14" height="14" class="footer-btn-icon footer-github-icon">
+              <use href="#icon-github"></use>
+            </svg>
+            <span>GitHub</span>
+          </a>
+          <a href="https://omwardhan.pages.dev/" target="_blank" rel="noopener noreferrer"
+            class="footer-credit footer-credit-link" title="Developed by Omwardhan Mishra" aria-label="Developed by Omwardhan Mishra">
+            <span>Developed by <strong>Omwardhan Mishra</strong></span>
+            <svg width="10" height="10" class="footer-external-arrow">
+              <use href="#icon-arrow-up-right"></use>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toast-container" aria-live="polite" aria-atomic="true"></div>
+
+  <!-- Main Controller Script -->
+</body>
+
+</html>

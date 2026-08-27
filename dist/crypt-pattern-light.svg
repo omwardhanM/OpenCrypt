@@ -1,0 +1,181 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="320" viewBox="0 0 320 320" fill="none">
+  <!-- OpenCrypt Precision Silicon Circuit Matrix (320x320 Seamless Tile - Enhanced Light) -->
+  <g stroke="#121316" stroke-linecap="round" stroke-linejoin="round">
+    
+    <!-- 1. BASE REGISTRATION TICKS & ISOMETRIC MATRIX (Opacity 0.025) -->
+    <g stroke-width="0.75" opacity="0.025">
+      <!-- 40px Grid Crosshairs -->
+      <g transform="translate(40,40)"><path d="M-3 0h6 M0 -3v6" /></g>
+      <g transform="translate(80,40)"><path d="M-3 0h6 M0 -3v6" /></g>
+      <g transform="translate(120,40)"><path d="M-3 0h6 M0 -3v6" /></g>
+      <g transform="translate(160,40)"><path d="M-3 0h6 M0 -3v6" /></g>
+      <g transform="translate(200,40)"><path d="M-3 0h6 M0 -3v6" /></g>
+      <g transform="translate(240,40)"><path d="M-3 0h6 M0 -3v6" /></g>
+      <g transform="translate(280,40)"><path d="M-3 0h6 M0 -3v6" /></g>
+
+      <g transform="translate(40,80)"><path d="M-3 0h6 M0 -3v6" /></g>
+      <g transform="translate(120,80)"><path d="M-3 0h6 M0 -3v6" /></g>
+      <g transform="translate(200,80)"><path d="M-3 0h6 M0 -3v6" /></g>
+      <g transform="translate(280,80)"><path d="M-3 0h6 M0 -3v6" /></g>
+
+      <g transform="translate(40,120)"><path d="M-3 0h6 M0 -3v6" /></g>
+      <g transform="translate(80,120)"><path d="M-3 0h6 M0 -3v6" /></g>
+      <g transform="translate(160,120)"><path d="M-3 0h6 M0 -3v6" /></g>
+      <g transform="translate(240,120)"><path d="M-3 0h6 M0 -3v6" /></g>
+      <g transform="translate(280,120)"><path d="M-3 0h6 M0 -3v6" /></g>
+
+      <g transform="translate(40,160)"><path d="M-3 0h6 M0 -3v6" /></g>
+      <g transform="translate(120,160)"><path d="M-3 0h6 M0 -3v6" /></g>
+      <g transform="translate(200,160)"><path d="M-3 0h6 M0 -3v6" /></g>
+      <g transform="translate(280,160)"><path d="M-3 0h6 M0 -3v6" /></g>
+
+      <g transform="translate(40,200)"><path d="M-3 0h6 M0 -3v6" /></g>
+      <g transform="translate(80,200)"><path d="M-3 0h6 M0 -3v6" /></g>
+      <g transform="translate(160,200)"><path d="M-3 0h6 M0 -3v6" /></g>
+      <g transform="translate(240,200)"><path d="M-3 0h6 M0 -3v6" /></g>
+      <g transform="translate(280,200)"><path d="M-3 0h6 M0 -3v6" /></g>
+
+      <g transform="translate(40,240)"><path d="M-3 0h6 M0 -3v6" /></g>
+      <g transform="translate(120,240)"><path d="M-3 0h6 M0 -3v6" /></g>
+      <g transform="translate(200,240)"><path d="M-3 0h6 M0 -3v6" /></g>
+      <g transform="translate(280,240)"><path d="M-3 0h6 M0 -3v6" /></g>
+
+      <g transform="translate(40,280)"><path d="M-3 0h6 M0 -3v6" /></g>
+      <g transform="translate(80,280)"><path d="M-3 0h6 M0 -3v6" /></g>
+      <g transform="translate(120,280)"><path d="M-3 0h6 M0 -3v6" /></g>
+      <g transform="translate(160,280)"><path d="M-3 0h6 M0 -3v6" /></g>
+      <g transform="translate(200,280)"><path d="M-3 0h6 M0 -3v6" /></g>
+      <g transform="translate(240,280)"><path d="M-3 0h6 M0 -3v6" /></g>
+      <g transform="translate(280,280)"><path d="M-3 0h6 M0 -3v6" /></g>
+
+      <!-- Corner Alignment Frame -->
+      <path d="M0 10v-10h10 M320 10v-10h-10 M0 310v10h10 M320 310v10h-10" />
+    </g>
+
+    <!-- 2. COHESIVE PCB BUS NETWORKS (Opacity 0.042) -->
+    <g stroke-width="0.85" opacity="0.042">
+      <!-- Bus Highway 1 (Top horizontal highway) -->
+      <path d="M0 60h50l20 20h60l15-15h70l15 15h40l20-20h30" />
+      <path d="M0 66h46l20 20h60l15-15h70l15 15h40l20-20h34" stroke-dasharray="8 4" />
+
+      <!-- Bus Highway 2 (Bottom horizontal highway) -->
+      <path d="M0 260h30l20-20h40l15 15h70l15-15h60l20 20h50" />
+      <path d="M0 254h34l20-20h40l15 15h70l15-15h60l20 20h46" stroke-dasharray="8 4" />
+
+      <!-- Vertical Highway 1 (Left vertical highway) -->
+      <path d="M60 0v50l20 20v60l-15 15v70l15 15v40l-20 20v30" />
+      <path d="M66 0v46l20 20v60l-15 15v70l15 15v40l-20 20v34" stroke-dasharray="8 4" />
+
+      <!-- Vertical Highway 2 (Right vertical highway) -->
+      <path d="M260 0v30l-20 20v40l15 15v70l-15 15v60l20 20v50" />
+      <path d="M254 0v34l-20 20v40l15 15v70l-15 15v60l20 20v46" stroke-dasharray="8 4" />
+
+      <!-- Diagonal Routing Traces -->
+      <path d="M100 100l30 30h60l30-30" />
+      <path d="M100 220l30-30h60l30 30" />
+      <path d="M130 100v120" stroke-dasharray="4 4" />
+      <path d="M190 100v120" stroke-dasharray="4 4" />
+      
+      <path d="M0 160h40l20-20v-20" />
+      <path d="M320 160h-40l-20 20v20" />
+      <path d="M160 0v40l-20 20h-20" />
+      <path d="M160 320v-40l20-20h20" />
+    </g>
+
+    <!-- 3. GEOMETRIC SILICON DIES & CIPHER NODES (Opacity 0.052) -->
+    <g stroke-width="0.95" opacity="0.052">
+      
+      <!-- Central Cryptographic Core Node (160, 160) -->
+      <g transform="translate(160, 160)">
+        <rect x="-18" y="-18" width="36" height="36" rx="4" />
+        <rect x="-11" y="-11" width="22" height="22" rx="2" stroke-dasharray="2 2" />
+        <path d="M-18 -8h-5 M-18 0h-5 M-18 8h-5" />
+        <path d="M18 -8h5 M18 0h5 M18 8h5" />
+        <path d="M-8 -18v-5 M0 -18v-5 M8 -18v-5" />
+        <path d="M-8 18v5 M0 18v5 M8 18v5" />
+        <circle cx="0" cy="0" r="3" />
+        <circle cx="0" cy="0" r="1.2" fill="#121316" stroke="none" />
+      </g>
+
+      <!-- Isometric Cryptic Prism 1 (80, 80) -->
+      <g transform="translate(80, 80)">
+        <polygon points="0,-14 12,-7 12,7 0,14 -12,7 -12,-7" />
+        <line x1="0" y1="0" x2="0" y2="14" />
+        <line x1="0" y1="0" x2="12" y2="-7" />
+        <line x1="0" y1="0" x2="-12" y2="-7" />
+        <circle cx="0" cy="0" r="2" fill="#121316" stroke="none" />
+      </g>
+
+      <!-- Isometric Cryptic Prism 2 (240, 240) -->
+      <g transform="translate(240, 240)">
+        <polygon points="0,-14 12,-7 12,7 0,14 -12,7 -12,-7" />
+        <line x1="0" y1="0" x2="0" y2="14" />
+        <line x1="0" y1="0" x2="12" y2="-7" />
+        <line x1="0" y1="0" x2="-12" y2="-7" />
+        <circle cx="0" cy="0" r="2" fill="#121316" stroke="none" />
+      </g>
+
+      <!-- Concentric Data Rings (240, 80) -->
+      <g transform="translate(240, 80)">
+        <circle cx="0" cy="0" r="16" stroke-dasharray="3 3" />
+        <circle cx="0" cy="0" r="10" />
+        <circle cx="0" cy="0" r="4" />
+        <path d="M-19 0h6 M13 0h6 M0 -19v6 M0 13v6" />
+      </g>
+
+      <!-- Concentric Data Rings (80, 240) -->
+      <g transform="translate(80, 240)">
+        <circle cx="0" cy="0" r="16" stroke-dasharray="3 3" />
+        <circle cx="0" cy="0" r="10" />
+        <circle cx="0" cy="0" r="4" />
+        <path d="M-19 0h6 M13 0h6 M0 -19v6 M0 13v6" />
+      </g>
+
+    </g>
+
+    <!-- 4. MICRO VIAS & HARDWARE PAD ARRAYS (Opacity 0.045) -->
+    <g stroke-width="0.75" opacity="0.045">
+      <!-- Via Rings at Routing Vertices -->
+      <circle cx="70" cy="80" r="2.2" />
+      <circle cx="130" cy="80" r="2.2" />
+      <circle cx="215" cy="80" r="2.2" />
+      <circle cx="275" cy="80" r="2.2" />
+
+      <circle cx="70" cy="240" r="2.2" />
+      <circle cx="130" cy="240" r="2.2" />
+      <circle cx="215" cy="240" r="2.2" />
+      <circle cx="275" cy="240" r="2.2" />
+
+      <circle cx="80" cy="70" r="2.2" />
+      <circle cx="80" cy="130" r="2.2" />
+      <circle cx="80" cy="215" r="2.2" />
+      <circle cx="80" cy="275" r="2.2" />
+
+      <circle cx="240" cy="70" r="2.2" />
+      <circle cx="240" cy="130" r="2.2" />
+      <circle cx="240" cy="215" r="2.2" />
+      <circle cx="240" cy="275" r="2.2" />
+
+      <!-- Center Solid Dots -->
+      <g fill="#121316" stroke="none">
+        <circle cx="70" cy="80" r="0.9" />
+        <circle cx="130" cy="80" r="0.9" />
+        <circle cx="215" cy="80" r="0.9" />
+        <circle cx="275" cy="80" r="0.9" />
+        <circle cx="70" cy="240" r="0.9" />
+        <circle cx="130" cy="240" r="0.9" />
+        <circle cx="215" cy="240" r="0.9" />
+        <circle cx="275" cy="240" r="0.9" />
+        <circle cx="80" cy="70" r="0.9" />
+        <circle cx="80" cy="130" r="0.9" />
+        <circle cx="80" cy="215" r="0.9" />
+        <circle cx="80" cy="275" r="0.9" />
+        <circle cx="240" cy="70" r="0.9" />
+        <circle cx="240" cy="130" r="0.9" />
+        <circle cx="240" cy="215" r="0.9" />
+        <circle cx="240" cy="275" r="0.9" />
+      </g>
+    </g>
+
+  </g>
+</svg>
