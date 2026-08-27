@@ -119,7 +119,7 @@ export async function decryptChunk(
     return new Uint8Array(decryptedBuffer);
   } catch {
     throw new Error(
-      'Chunk authentication failed: data is corrupted, out of order, or header was tampered with.'
+      'Decryption failed. The passphrase may be incorrect, or the file/data is corrupted.'
     );
   }
 }
